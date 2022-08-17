@@ -44,7 +44,9 @@ pipeline {
     
              sshCommand remote:remote, command: "pwd"
              
-              sshCommand remote:remote, command: "yq eval '.image.tag = ${IMAGE_VERSION}' -i /home/monta/Desktop/go-k8s-helm/go-k8s/values.yaml"
+             sshCommand remote:remote, command: "yq eval '.image.tag = ${IMAGE_VERSION}' -i /home/monta/Desktop/go-k8s-helm/go-k8s/values.yaml"
+             sshCommand remote:remote, command: "cat /home/monta/Desktop/go-k8s-helm/go-k8s/values.yaml"
+             
           
         }
             }
