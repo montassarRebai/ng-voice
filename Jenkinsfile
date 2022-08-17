@@ -37,12 +37,14 @@ pipeline {
                  
                  
                  withCredentials([
-    string(credentialsId: 'addr', variable: 'ADDR'),
-    string(credentialsId: 'pswd', variable: 'PSWD'),
-    string(credentialsId: 'username', variable: 'USERNAME'),
+                  string(credentialsId: 'addr', variable: 'ADDR'),
+                  string(credentialsId: 'pswd', variable: 'PSWD'),
+                  string(credentialsId: 'username', variable: 'USERNAME'),
     
-]){
-    script {
+    ]){
+        echo "My secret addr is '${ADDR}'"
+        echo "My secret pswd is '${PSWD}'"
+       script {
               def remote = [:]
               remote.name = 'master'
               remote.host = '${ADDR}'
@@ -57,8 +59,8 @@ pipeline {
              sshCommand remote:remote, command: "cd /home/monta/Desktop/go-k8s-helm/go-k8s/ ; sh git.sh"
              
           
-        }
-}
+           }
+       }
                 
             }
         }
