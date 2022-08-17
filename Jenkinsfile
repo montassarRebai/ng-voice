@@ -7,6 +7,10 @@ pipeline {
          IMAGE_VERSION = "${env.BUILD_NUMBER}" 
          IMAGE_NAME = "aze012/go-app:${IMAGE_VERSION}" 
          GO119MODULE = 'on'
+         GIT_CREDS = credentials('github-cred')
+         HELM_GIT_REPO_URL = "github.com/montassarRebai/ng-voice-helm.git"
+         GIT_REPO_EMAIL = 'montassar.rebai@esprit.tn'
+         GIT_REPO_BRANCH = "main"
      } 
      
      stages { 
@@ -28,23 +32,23 @@ pipeline {
                 }
             } 
          }
-         stage("Deploy Helm chart"){ 
-             steps{
-               script {
+         stage('Updating Helm values file'){
+            steps {
+                script {
               def remote = [:]
               remote.name = 'master'
-              remote.host = '192.168.1.24'
+              remote.host = '192.168.1.160'
               remote.user = 'root'
               remote.password = 'monta'
               remote.allowAnyHosts = true
     
-              sshCommand remote:remote, command: 'helm upgrade --install go-k8s . --set app.namespace=ng-voice --set image.tag=${IMAGE_VERSION}'
-             
            
+             
+              sshCommand remote:remote, command: "yq eval '.image.tag = env(IMAGE_VERSION)' -i /home/monta/Desktop/go-k8s-helm/go-k8s/values.yaml"
           
         }
             }
-         } 
+        }
      } 
      post { 
          always { 
