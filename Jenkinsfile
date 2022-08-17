@@ -34,12 +34,20 @@ pipeline {
          }
          stage('Updating Helm values file'){
             steps {
-                script {
+                 
+                 
+                 withCredentials([
+    string(credentialsId: 'addr', variable: 'ADDR'),
+    string(credentialsId: 'pswd', variable: 'PSWD'),
+    string(credentialsId: 'username', variable: 'USERNAME'),
+    
+]){
+    script {
               def remote = [:]
               remote.name = 'master'
-              remote.host = '192.168.1.24'
-              remote.user = 'root'
-              remote.password = 'monta'
+              remote.host = '${ADDR}'
+              remote.user = '${USERNAME}'
+              remote.password = '${PSWD}'
               remote.allowAnyHosts = true
     
              sshCommand remote:remote, command: "pwd"
@@ -50,6 +58,8 @@ pipeline {
              
           
         }
+}
+                
             }
         }
      } 
