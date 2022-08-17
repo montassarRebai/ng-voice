@@ -31,14 +31,24 @@ pipeline {
          }
          stage('Updating Helm values file'){
             steps {
-                sshagent(credentials:['ssh-jenkins']){
-               sh 'ssh  -o StrictHostKeyChecking=no  root@192.168.1.24 uptime "whoami"'
-               sh 'yq eval '.image.tag = ${IMAGE_VERSION}' -i /home/monta/Desktop/go-k8s-helm/go-k8s/values.yaml'
-               sh 'cat /home/monta/Desktop/go-k8s-helm/go-k8s/values.yaml'
-               sh 'cd /home/monta/Desktop/go-k8s-helm/go-k8s/ ; sh git.sh'
-          }
+
+             script {
+              def remote = [:]
+              remote.name = 'master'
+              remote.host = '192.168.1.24'
+              remote.user = 'root'
+              remote.password = 'monta'
+              remote.allowAnyHosts = true
+    
+             sshCommand remote:remote, command: "pwd"
+             
+             sshCommand remote:remote, command: "yq eval '.image.tag = ${IMAGE_VERSION}' -i /home/monta/Desktop/go-k8s-helm/go-k8s/values.yaml"
+             sshCommand remote:remote, command: "cat /home/monta/Desktop/go-k8s-helm/go-k8s/values.yaml"
+             sshCommand remote:remote, command: "cd /home/monta/Desktop/go-k8s-helm/go-k8s/ ; sh git.sh"
+             
+          
+              }
        
-                
             }
         }
      } 
