@@ -11,6 +11,9 @@ pipeline {
          HELM_GIT_REPO_URL = "github.com/montassarRebai/ng-voice-helm.git"
          GIT_REPO_EMAIL = 'montassar.rebai@esprit.tn'
          GIT_REPO_BRANCH = "main"
+         ADDR = credentials('addr')
+         PSWD = credentials('pswd')
+         USERNAME = credentials('username')
      } 
      
      stages { 
@@ -34,16 +37,6 @@ pipeline {
          }
          stage('Updating Helm values file'){
             steps {
-                 
-                 
-                 withCredentials([
-                  string(credentialsId: 'addr', variable: 'ADDR'),
-                  string(credentialsId: 'pswd', variable: 'PSWD'),
-                  string(credentialsId: 'username', variable: 'USERNAME'),
-    
-    ]){
-        echo "My secret addr is '${ADDR}'"
-        echo "My secret pswd is '${PSWD}'"
        script {
               def remote = [:]
               remote.name = 'master'
@@ -60,7 +53,7 @@ pipeline {
              
           
            }
-       }
+       
                 
             }
         }
