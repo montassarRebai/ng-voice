@@ -24,14 +24,14 @@ pipeline {
                  sh "docker build --tag=${IMAGE_NAME} ." 
              } 
          } 
-         //stage("Push to DockerHub") {
-            //steps {
-               // withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'dockerhubPassword', usernameVariable: 'dockerhubUser')]) {
-               // sh "docker login -u ${env.dockerhubUser} -p ${env.dockerhubPassword}"
-               // sh "docker push ${IMAGE_NAME}"
-               // }
-           // } 
-        // }
+         stage("Push to DockerHub") {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'dockerhubPassword', usernameVariable: 'dockerhubUser')]) {
+                sh "docker login -u ${env.dockerhubUser} -p ${env.dockerhubPassword}"
+                sh "docker push ${IMAGE_NAME}"
+                }
+            } 
+         }
          stage('Updating Helm values file'){
             steps {
                 script {
