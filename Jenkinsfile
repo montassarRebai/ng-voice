@@ -34,11 +34,9 @@ pipeline {
        script {
               def remote = [:]
               remote.name = 'master'
-               withCredentials([usernamePassword(credentialsId: 'addr', passwordVariable: 'addrPassword', usernameVariable: 'addrUser')]) {
-                remote.host = '${addrPassword}'
-                } 
-              remote.user = '${USERNAME}'
-              remote.password = '${PSWD}'
+              remote.host = '192.168.1.24'
+              remote.user = 'root'
+              remote.password = 'monta'
               remote.allowAnyHosts = true
     
              sshCommand remote:remote, command: "pwd"
