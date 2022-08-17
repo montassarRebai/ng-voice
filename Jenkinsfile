@@ -8,12 +8,6 @@ pipeline {
          IMAGE_NAME = "aze012/go-app:${IMAGE_VERSION}" 
          GO119MODULE = 'on'
          GIT_CREDS = credentials('github-cred')
-         HELM_GIT_REPO_URL = "github.com/montassarRebai/ng-voice-helm.git"
-         GIT_REPO_EMAIL = 'montassar.rebai@esprit.tn'
-         GIT_REPO_BRANCH = "main"
-         ADDR = credentials('addr')
-         PSWD = credentials('pswd')
-         USERNAME = credentials('username')
      } 
      
      stages { 
@@ -40,7 +34,9 @@ pipeline {
        script {
               def remote = [:]
               remote.name = 'master'
-              remote.host = '${ADDR}'
+               withCredentials([usernamePassword(credentialsId: 'addr', passwordVariable: 'addrPassword', usernameVariable: 'addrUser')]) {
+                remote.host = '${addrPassword}'
+                } 
               remote.user = '${USERNAME}'
               remote.password = '${PSWD}'
               remote.allowAnyHosts = true
