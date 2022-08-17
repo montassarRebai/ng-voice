@@ -24,20 +24,20 @@ pipeline {
                  sh "docker build --tag=${IMAGE_NAME} ." 
              } 
          } 
-         stage("Push to DockerHub") {
-            steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'dockerhubPassword', usernameVariable: 'dockerhubUser')]) {
-                sh "docker login -u ${env.dockerhubUser} -p ${env.dockerhubPassword}"
-                sh "docker push ${IMAGE_NAME}"
-                }
-            } 
-         }
+         //stage("Push to DockerHub") {
+            //steps {
+               // withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'dockerhubPassword', usernameVariable: 'dockerhubUser')]) {
+               // sh "docker login -u ${env.dockerhubUser} -p ${env.dockerhubPassword}"
+               // sh "docker push ${IMAGE_NAME}"
+               // }
+           // } 
+        // }
          stage('Updating Helm values file'){
             steps {
                 script {
               def remote = [:]
               remote.name = 'master'
-              remote.host = '192.168.1.160'
+              remote.host = '192.168.1.24'
               remote.user = 'root'
               remote.password = 'monta'
               remote.allowAnyHosts = true
