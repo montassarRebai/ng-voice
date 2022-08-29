@@ -20,7 +20,7 @@ func main() {
    
 	GetPods(clientset, ctx, namespace)
 	fmt.Println("pods successfully displayed ")
-	 time.Sleep(999 * time.Second)
+	 time.Sleep(9999 * time.Second)
 		
 
 
