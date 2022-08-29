@@ -4,6 +4,8 @@ import (
 	"context"
 	"fmt"
 
+	"time"
+
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -17,6 +19,10 @@ func main() {
 	namespace := "default"
 
 	GetPods(clientset, ctx, namespace)
+	fmt.Println("pods successfully displayed ")
+	for {
+		time.Sleep(1 * time.Second)
+	}
 
 }
 
