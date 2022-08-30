@@ -16,7 +16,7 @@ func main() {
 	config := ctrl.GetConfigOrDie()
 	clientset := kubernetes.NewForConfigOrDie(config)
 
-	namespace := "default"
+	namespace := "argocd"
    
 	GetPods(clientset, ctx, namespace)
 	fmt.Println("pods successfully displayed ")
